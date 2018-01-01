@@ -1,0 +1,26 @@
+{
+    "bin": {},
+    "dependencies": {},
+    "devDependencies": {
+        "mocha": "^3.3.0"
+    },
+    "directories": {},
+    "scripts": {
+        "test": "mocha"
+    },
+    "name": "antfin",
+    "version": "0.0.0",
+    "main": "index.js",
+    "license": "SEE LICENSE IN LICENSE.md"
+    "homepage": "https://github.com/YounGoat/nodejs.antfin",
+    "description": "Security holding package",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/YounGoat/nodejs.antfin.git"
+    },
+    "author": {
+        "name": "YounGoat",
+        "email": "youngoat@163.com",
+        "url": "https://youngoat.github.io"
+    }
+}
