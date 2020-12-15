@@ -1,0 +1,52 @@
+{
+	"type": "array",
+	"items": {
+		"type": "object",
+		"properties": {
+			"name": { 
+				"type": "string" 
+			},
+			"usage": { 
+				"type": "string" 
+			},
+			"commands": {
+				"type": "array",
+				"items": [
+					{
+						"type": "string"
+					}
+				]
+			},
+			"commandline": {
+				"type": "string"
+			},
+			"shells": {
+				"type": "array",
+				"items": [
+					{
+						"type": "string"
+					}
+				]
+			},
+			"argv": { 
+				"type": "array",
+				"items": [
+					{
+						"type": "string"
+					}
+				],
+				"minItems": 1,
+				"additionalItems": {
+					"type": [ 
+						"string", 
+						"number" 
+					]
+				}
+			}
+		},
+		"required": [ 
+			"name"
+		],
+		"additionalProperties": false
+	}
+}

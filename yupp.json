@@ -1,0 +1,8 @@
+{
+	"name": "ant-finger",
+	"alias": [ "antfin" ],
+	"badges": [
+		"npm.*",
+		"github.*"
+	]
+}

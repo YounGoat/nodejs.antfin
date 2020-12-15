@@ -1,0 +1,30 @@
+
+NAME
+        af - Manage and apply your favorite commands.
+
+SYNOPSIS
+        af help <SUB_COMMAND>
+        # Show help info of specified sub command.
+
+        af list
+        # List all saved commands.
+
+        af remove
+        # Remove saved command(s).
+
+        af rename
+        # Rename saved command.
+
+        af run [ <NAME> ]
+        af run [ --name ] <NAME>
+        # Run saved command.
+
+        af save [ <COMMAND> <ARGS> ]
+        # Save your favorite command.
+
+DESCRIPTION
+        "af" means "ant fingers". It helps you manage your favorite commands, 
+        and apply them easily on demand.
+
+ARGUMENTS
+        This tool runs in interactive mode.  
