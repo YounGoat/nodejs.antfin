@@ -40,4 +40,13 @@ af run [ --name ] <NAME>
 
 af save [ <COMMAND> <ARGS> ]
 # Save your favorite command.
+
+af history 
+# Display history commands.
+
+af !0
+# Re-run history command No.0.
+
+af !0 --amend
+# Re-run history command No.0 by changing some of the variables.
 ```

@@ -1,0 +1,33 @@
+{
+	"type": "array",
+	"items": {
+		"type": "object",
+		"properties": {
+			"argv": {
+				"type": "array",
+				"items": {
+					"type": "string"
+				}
+			},
+			"commandline": {
+				"type": "string"
+			},
+			"date": {
+				"type": "string"
+			},
+			"name": { 
+				"type": "string" 
+			},
+			"shell": {
+				"type": "string"
+			},
+			"vars": {
+				"type": "object"
+			}
+		},
+		"required": [ 
+			"name"
+		],
+		"additionalProperties": false
+	}
+}

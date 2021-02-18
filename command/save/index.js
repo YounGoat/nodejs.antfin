@@ -96,7 +96,7 @@ async function main(ARGS) {
     do {
         if (afcommand.name && (existing = db.get(afcommand.name))
             && !await myutil.prompt.confirm(`Overwrite existing command?`)) {
-            name = null;
+            afcommand.name = null;
         }
 
         if (afcommand.name) {
@@ -109,13 +109,13 @@ async function main(ARGS) {
         });
     } while(true);
 
-    afcommand.usage = ARGS.usage || await myutil.prompt.input({ 
+    afcommand.usage = ARGS.usage || await myutil.prompt.input({
         message : 'Usage', 
         default : existing && existing.usage, 
     });
 
     let type = await myutil.prompt.select({
-        message : 'Command Type',
+        message : 'Command Type', 
         choices : [ 
             { name: 'Single Command', value: 'argv' },
             { name: 'Compound Command', value: 'commandline' },
@@ -148,6 +148,12 @@ async function main(ARGS) {
                 argv.push(arg);
             }
         }
+        else {
+            for (let i = 0; i < argv.length; i++) {
+                argv[i] = await unfill(argv[i], `Argument ${i}`);
+            }
+        }
+
         afcommand.argv = argv;
     }
     else if (type == 'commandline') {

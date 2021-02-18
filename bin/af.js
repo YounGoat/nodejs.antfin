@@ -23,6 +23,8 @@ commandos.run(argv, {
     name: 'af',
     commandDir: noda.inResolve('command'),
     alias: [ 
+        [ 'last', [ 'history', '--run', '--number=-1' ] ],
+        [ [ '\\!*' ], [ 'history', '--run', '$0' ] ],
         [ '*', [ 'run', '$0' ] ]
     ],
     afterRun(data) {

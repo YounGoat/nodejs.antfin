@@ -21,7 +21,7 @@ module.exports = {
 		if (Array.isArray(options)) {
 			options = { choices: options };
 		}
-		options.name = 'FOOBAR';
+		options.name = options.name || 'PLEASE CHECK';
 		options.type = 'checkbox';
 		return inquirer.prompt(options).then(answer => answer[options.name]);
 	},
@@ -30,7 +30,7 @@ module.exports = {
 		if (typeof options == 'string') {
 			options = { message: options };
 		}
-		options.name = 'FOOBAR';
+		options.name = options.name || 'PLEASE CONFIRM';
 		options.type = 'confirm';
 		return inquirer.prompt(options).then(answer => answer[options.name]);
 	},
@@ -39,7 +39,7 @@ module.exports = {
 		if (typeof options == 'string') {
 			options = { message: options };
 		}
-		options.name = 'FOOBAR';
+		options.name = options.name || 'PLEASE INPUT';
 		options.type = 'input';
 		return inquirer.prompt(options).then(answer => answer[options.name]);
 	},
@@ -48,8 +48,9 @@ module.exports = {
 		if (Array.isArray(options)) {
 			options = { choices: options };
 		}
-		options.name = 'FOOBAR';
+		options.name = options.name || 'PLEASE SELECT';
 		options.type = 'list';
+		options.loop = false;
 		return inquirer.prompt(options).then(answer => answer[options.name]);
 	},
 };

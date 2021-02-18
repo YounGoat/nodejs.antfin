@@ -16,6 +16,7 @@ const MODULE_REQUIRE = 1
 	, noda = require('noda')
 	
 	/* in-package */
+	, AfHistory = noda.inRequire('class/AfHistory')    
 	, myutil = noda.inRequireDir('util')
 	, o = myutil.output
 	;
@@ -24,11 +25,11 @@ const RE_VAR = /@AF\{(\w+)(\([^)]+\)|\[[^\]]+\])?\}/;
 
 class AfCommand {
 	constructor(options) {
-		this._ = options;
+		this._options = options;
 	}
 
 	async dryrun() {
-		let commands = this._.commands;
+		let commands = this._options.commands;
 		if (commands) {
 			commands.forEach(command => {
 				o.blue('af run', command);
@@ -36,8 +37,9 @@ class AfCommand {
 			return;
 		}
 		
-		myutil.console.log(`Dry run command ${colors.yellow(this._.name)}`);
-		let { commandline, argv } = await this._parse();
+		myutil.console.log(`Dry run command ${colors.yellow(this._options.name)}`);
+		let parsed = await this._parse();
+		let { commandline, argv } = parsed;
 		if (argv) {
 			o.blue.apply(null, argv);
 		}
@@ -47,7 +49,17 @@ class AfCommand {
 		o();
 	}
 
-	async _parse() {
+	async _push2history(parsed) {
+		const history = (new AfHistory).load();
+		let afinstance = Object.assign({ name: this._options.name }, parsed);
+		await history.push(afinstance);
+	}
+ 
+	/**
+	 * Parse the AntFinger command.
+	 * Replace the placeholders and generate real command line or argv.
+	 */
+	async _parse(raw) {
 		let vars = {};
 		let fill = async (commandtext)=> {
 			do {
@@ -66,19 +78,19 @@ class AfCommand {
 						message: name,
 						validate: value => /^\s*$/.test(value) ? `${name} SHOULD NOT be empty.` : true,
 					};
+					if (raw) options.default = raw[name];
 
 					if (!enums || enums.length == 0) {
 						vars[name] = await myutil.prompt.input(options);
 					}
 					else if (enums.length == 1) {
-						options.default = enums[0];
+						if (!raw) options.default = raw ? raw[name] : enums[0];
 						vars[name] = await myutil.prompt.input(options);
 					}
 					else {
 						if (enums[ enums.length - 1 ] == '...') {
 							enums.splice(-1, 1, { name: colors.dim('OTHERS ...'), value: '...' });
 						}
-
 						options.choices = enums.map(value => value || { name: colors.dim('-- EMPTY --'), value: '' });
 						options.loop = false;
 						vars[name] = await myutil.prompt.select(options);
@@ -87,28 +99,43 @@ class AfCommand {
 						}
 					}
 				}
-
+				
 				// Replace the pattern.
 				commandtext = commandtext.replace(pattern, vars[name]);
 			} while (true);
 		};
 
-		if (this._.argv) {
-			let argv = this._.argv.slice(0);
+		const options = this._options;
+
+		if (options.argv) {
+			let argv = options.argv.slice(0);
 			for (let i = 0; i < argv.length; i++) {
 				argv[i] = await fill(argv[i]);
 			}
+			this._push2history({ argv, vars });
 			return { argv };
 		}
 
-		if (this._.commandline) {
-			let commandline = await fill(this._.commandline);
+		if (options.commandline) {
+			let commandline = await fill(options.commandline);
+			this._push2history({ commandline, vars });
 			return { commandline };
 		}
 	}
 
-	async run() {
-		let { commandline, argv } = await this._parse();
+	async run(afinstance, amend = false) {
+		let commandline, argv;
+
+		if (afinstance && amend) {
+			({ commandline, argv } = await this._parse(afinstance.vars));
+		}
+		else if (afinstance) {
+			({ commandline, argv } = afinstance);
+		}
+		else {
+			({ commandline, argv } = await this._parse());
+		}
+		
 		if (argv) {
 			let [ command, ...args ] = argv;
 			spawn(command, args, { stdio: 'inherit' });
@@ -119,7 +146,7 @@ class AfCommand {
 	}
 	
 	toJson() {
-		return this._;
+		return this._options;
 	}
 };
 

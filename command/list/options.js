@@ -9,11 +9,14 @@ const MODULE_REQUIRE = 1
 	;
 
 module.exports = {
-	"options": [
-		'--help -h NOT ASSIGNABLE',
-		'--long -l NOT ASSIGNABLE',
-		'--name -n [0] NOT NULL',
-		'--order -o',
-		'--search -s NOT NULL',
-	]
+	"groups": [
+		[
+			'--help -h NOT ASSIGNABLE',
+			'--long -l NOT ASSIGNABLE',
+			'--name -n [0] NOT NULL',
+			'--order -o',
+			'--save',
+			'--search -s NOT NULL',
+		]
+	],
 };

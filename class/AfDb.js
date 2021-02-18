@@ -18,9 +18,10 @@ const MODULE_REQUIRE = 1
 	
 	/* in-package */
 	, schemaAfDb = noda.inRequire('schema/AfDb')
+	, myutil = noda.inRequireDir('util')
 	;
 
-const DB_PATH = path.join(os.homedir(), '.ant-finger.json');
+const DB_FILENAME = 'afdb.json';
 
 class AfDb {
 
@@ -80,19 +81,19 @@ class AfDb {
 	}
 
 	load() {
-		let data = null;
-		if (fs.existsSync(DB_PATH)) {
+		let data = [];
+		if (myutil.dir.exists(DB_FILENAME)) {
 			try {
-				data = JSON.parse(fs.readFileSync(DB_PATH, 'utf-8'));
+				data = JSON.parse(myutil.dir.readFile(DB_FILENAME, 'utf-8'));
 			} catch (error) {
-				throw `The database "${DB_PATH}" is broken.`;
+				throw `The command-database "${myutil.dir.resolve(DB_FILENAME)}" is broken.`;
 			}
 		}
 
 		let ajv = new Ajv;
 		if (!ajv.validate(schemaAfDb, data)) {
 			console.log(ajv.errorsText());
-			throw `The database "${DB_PATH}" is broken.`;
+			throw `The database "${myutil.dir.resolve(DB_FILENAME)}" is tampered.`;
 		}
 
 		this._db = data;
@@ -125,7 +126,7 @@ class AfDb {
 	}
 
 	_save() {
-		fs.writeFileSync(DB_PATH, JSON.stringify(this._db, null, 4));
+		myutil.dir.writeFile(DB_FILENAME, JSON.stringify(this._db, null, 4));
 	}
 
 	/**

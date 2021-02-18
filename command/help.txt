@@ -6,6 +6,9 @@ SYNOPSIS
         af help <SUB_COMMAND>
         # Show help info of specified sub command.
 
+        af history
+        # List, view or execute history commands.
+
         af list
         # List all saved commands.
 
@@ -21,6 +24,9 @@ SYNOPSIS
 
         af save [ <COMMAND> <ARGS> ]
         # Save your favorite command.
+
+        af view <NAME>
+        # View details of saved command.
 
 DESCRIPTION
         "af" means "ant fingers". It helps you manage your favorite commands, 
