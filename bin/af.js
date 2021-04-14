@@ -34,4 +34,5 @@ commandos.run(argv, {
             process.exitCode = error.code || 1;
         }
     },
+    useManon: true,
 });

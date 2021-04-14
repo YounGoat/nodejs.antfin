@@ -20,7 +20,7 @@
         "test": "mocha"
     },
     "name": "antfin",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "main": "index.js",
     "license": "SEE LICENSE IN LICENSE.md",
     "homepage": "https://github.com/YounGoat/nodejs.antfin",

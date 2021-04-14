@@ -12,7 +12,6 @@ const MODULE_REQUIRE = 1
 	, inquirer = require('inquirer')
 	
 	/* in-package */
-	, console = require('console')
 	;
 
 

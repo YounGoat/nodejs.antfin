@@ -31,6 +31,3 @@ SYNOPSIS
 DESCRIPTION
         "af" means "ant fingers". It helps you manage your favorite commands, 
         and apply them easily on demand.
-
-ARGUMENTS
-        This tool runs in interactive mode.  
